@@ -69,11 +69,7 @@ const SignUp = () => {
       console.log('Validation errors:', errors);
     }
   };
-  //   const {
-  //     isOpen: isSuccessOpen,
-  //     onOpen: onSuccessOpen,
-  //     onClose: onSuccessClose,
-  //   } = useDisclosure();
+
   return (
     <VStack h={'100%'} justify={'center'} bg="#E6DCF1" py="2rem">
       <Box pos="relative" w="11.154rem" h="2.32rem">
@@ -150,6 +146,8 @@ const SignUp = () => {
                   _focus={{ borderColor: '#6e30b0' }}
                   border={'1px solid lightgrey'}
                   focusBorderColor="transparent"
+                  value={values.lastName}
+                  onChange={handleChange}
                   name="lastName"
                   py="1.5rem"
                   px="1rem"
