@@ -6,7 +6,6 @@ import {
   Flex,
   Heading,
   Input,
-  Stack,
   Text,
   FormLabel,
   FormControl,
@@ -15,56 +14,30 @@ import {
   InputGroup,
   InputRightElement,
   Icon,
-  useDisclosure,
 } from '@chakra-ui/react';
 import { Link } from 'react-router-dom';
 import { BsEye, BsEyeSlash } from 'react-icons/bs';
 import useFormValidation from '../../hooks/useFormValidation';
 import usePasswordToggle from '../../hooks/usePasswordToggle';
-import ICON from '../../assets/Icons.png';
 
 const SignUp = () => {
   const { showPassword, togglePasswordVisibility } = usePasswordToggle();
 
-  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
+  // destructuring the custom hooks
+  const { values, handleChange, errors, validateForm } = useFormValidation({
+    firstName: '',
+    lastName: '',
+    email: '',
+    fullName: '',
+    password: '',
+    whatsAppNumber: '',
+  });
 
-  // validation rules
-  const validationRules = {
-    firstName: (value) => value.trim().length > 0,
-    lastName: (value) => value.trim().length > 0,
-    email: (value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value),
-    fullName: (value) => value.length >= 8,
-    password: (value) => value.length >= 8,
-    whatsAppNumber: (value) => value.length >= 11,
-  };
-
-  // error messages to be displayed at the ui
-  const errorMessages = {
-    firstName: 'First name is Required',
-    lastName: 'Last name is Required',
-    email: 'Email is Required',
-    password: 'Must be at least 8 characters long',
-    whatsAppNumber: 'Number must 11 digit',
-  };
-
-  const { values, handleChange, errors, validateForm } = useFormValidation(
-    {
-      firstName: '',
-      lastName: '',
-      email: '',
-      fullName: '',
-      password: '',
-      whatsAppNumber: '',
-    },
-    validationRules,
-    errorMessages
-  );
-
+  // validation
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (validateForm()) {
-      setIsSuccessModalOpen(true);
     } else {
       console.log('Validation errors:', errors);
     }
@@ -83,33 +56,21 @@ const SignUp = () => {
           p={'2rem'}
           borderWidth={1}
           borderRadius={8}
-          h="55rem"
+          h="49rem"
           bg="white"
         >
           <VStack gap={'1.5rem'} justify={'center'} h="100%">
             <Heading as="h1" size="lg" textAlign="center" fontSize="20px">
               Create an Account
             </Heading>
-
-            <Flex
-              justify="center"
-              border="1px solid #6e30b0 "
-              py="1rem"
-              borderRadius={5}
-              w="100%"
-            >
-              <img src={ICON} alt="google image" width={25} height={10} />
-              <Text ml={2} color="#6e30b0">
-                Sign up with Google
-              </Text>
-            </Flex>
-
+            {/* form */}
             <VStack as={'form'} onSubmit={handleSubmit} w="100%" gap="1rem">
               <FormControl
                 id="firstName"
                 isInvalid={!!errors.firstName}
                 w="100%"
               >
+                {/* first name */}
                 <FormLabel w="100%" fontSize="14px">
                   First Name
                 </FormLabel>
@@ -136,6 +97,8 @@ const SignUp = () => {
                   {errors.firstName}
                 </Text>
               </FormControl>
+
+              {/* last name */}
               <FormControl id="lastName" isInvalid={!!errors.lastName} w="100%">
                 <FormLabel w="100%" fontSize="14px">
                   Last Name
@@ -163,6 +126,8 @@ const SignUp = () => {
                   {errors.lastName}
                 </Text>
               </FormControl>
+
+              {/* email */}
               <FormControl id="email" isInvalid={!!errors.email} w="100%">
                 <FormLabel w="100%" fontSize="14px">
                   Email Address
@@ -190,6 +155,8 @@ const SignUp = () => {
                   {errors.email}
                 </Text>
               </FormControl>
+
+              {/* whatsapp number */}
               <FormControl
                 id="whatsAppNumber"
                 isInvalid={!!errors.whatsAppNumber}
@@ -221,6 +188,8 @@ const SignUp = () => {
                   {errors.whatsAppNumber}
                 </Text>
               </FormControl>
+
+              {/* password */}
               <FormControl id="password">
                 <FormLabel fontSize="14px">Password</FormLabel>
 
@@ -243,7 +212,7 @@ const SignUp = () => {
                 >
                   <Input
                     w="100%"
-                    type={showPassword ? 'text' : 'password'} // Set type dynamically
+                    type={showPassword ? 'text' : 'password'}
                     name="password"
                     placeholder="Enter password"
                     border="none"
@@ -267,6 +236,8 @@ const SignUp = () => {
                       },
                     }}
                   />
+
+                  {/* toggling to show password and not to show password */}
                   <InputRightElement
                     border="none"
                     top="0.2rem"
@@ -324,24 +295,13 @@ const SignUp = () => {
                 mt={3}
                 w="100%"
                 py="1.5rem"
-                // onClick={onSuccessOpen}
               >
                 Create Account
               </Button>
             </VStack>
-            <Text textAlign="center" w="100%" fontSize="12px" color="#544f4c">
-              Already have an account?{' '}
-              <Link
-                href="#"
-                style={{ textDecoration: 'underline', color: '#6e30b0' }}
-              >
-                Sign in here
-              </Link>
-            </Text>
           </VStack>
         </Box>
       </Center>
-      {/* <Success isOpen={isSuccessOpen} onClose={onSuccessClose} /> */}
     </VStack>
   );
 };
